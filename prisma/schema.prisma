@@ -18,6 +18,8 @@ model User {
   posts     Post[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("users")
 }
 
 model Post {
@@ -29,4 +31,6 @@ model Post {
   authorId  Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("posts")
 }
