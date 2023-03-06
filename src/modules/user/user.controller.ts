@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common/decorators';
+import { Prisma } from '@prisma/client';
 import { UserService } from './user.service';
 
 @Controller('usuarios')
@@ -20,21 +21,24 @@ export class UserController {
 
   @Get(':id')
   async buscaUsuario(@Param('id') id: string) {
-    return this.userService.buscaUsuario(id);
+    return this.userService.buscaUsuario({ id: +id });
   }
 
   @Post()
-  async criaUsuario(@Body() criaUsuarioDto: any) {
-    return this.userService.criaUsuario(criaUsuarioDto);
+  async criaUsuario(@Body() usuario: Prisma.UserCreateInput) {
+    return this.userService.criaUsuario(usuario);
   }
 
   @Patch('/:id')
-  async editaUsuario(@Param('id') id: string) {
-    return this.userService.editaUsuario(id);
+  async editaUsuario(
+    @Param('id') id: string,
+    @Body() usuarioAtt: Prisma.UserUpdateInput,
+  ) {
+    return this.userService.editaUsuario({ id: +id }, usuarioAtt);
   }
 
   @Delete('/:id')
   async deletaUsuario(@Param('id') id: string) {
-    return this.userService.deletaUsuario(id);
+    return this.userService.deletaUsuario({ id: +id });
   }
 }
